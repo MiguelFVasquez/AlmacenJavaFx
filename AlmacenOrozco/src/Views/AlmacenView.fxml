@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="805.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AlmacenController">
+   <children>
+      <TabPane layoutY="39.0" prefHeight="493.0" prefWidth="684.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="Administracion de Clientes">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Información del cliente" />
+                        <Separator layoutX="18.0" layoutY="29.0" prefHeight="5.0" prefWidth="770.0" />
+                        <Label layoutX="19.0" layoutY="193.0" text="¿Qué tipo de cliente desea registrar?" />
+                        <ComboBox fx:id="comboBoxTipoCliente" layoutX="229.0" layoutY="189.0" prefHeight="25.0" prefWidth="150.0" />
+                        <Label layoutX="417.0" layoutY="54.0" text="Nombre:" />
+                        <Label layoutX="417.0" layoutY="114.0" text="Apellido:" />
+                        <Label layoutX="416.0" layoutY="255.0" text="Telefono" />
+                        <Label layoutX="416.0" layoutY="166.0" text="Identificacion" />
+                        <Label layoutX="31.0" layoutY="246.0" text="Email" />
+                        <TextField fx:id="txtNombre" layoutX="561.0" layoutY="50.0" prefHeight="25.0" prefWidth="216.0" />
+                        <TextField fx:id="txtEmail" layoutX="162.0" layoutY="242.0" prefHeight="22.0" prefWidth="206.0" />
+                        <TextField fx:id="txtApellido" layoutX="561.0" layoutY="110.0" prefHeight="25.0" prefWidth="216.0" />
+                        <TextField fx:id="txtIdentificacion" layoutX="563.0" layoutY="162.0" prefHeight="25.0" prefWidth="216.0" />
+                        <TextField fx:id="txtTelefono" layoutX="561.0" layoutY="251.0" prefHeight="25.0" prefWidth="216.0" />
+                        <Label layoutX="20.0" layoutY="286.0" text="Fecha de nacimiento" />
+                        <DatePicker fx:id="datePickerFechaNacimiento" layoutX="162.0" layoutY="282.0" prefHeight="25.0" prefWidth="206.0" />
+                        <Label layoutX="417.0" layoutY="295.0" text="NIT" />
+                        <TextField fx:id="txtNit" layoutX="561.0" layoutY="295.0" prefHeight="25.0" prefWidth="216.0" />
+                        <Separator layoutX="18.0" layoutY="381.0" prefHeight="3.0" prefWidth="771.0" />
+                        <Label layoutX="20.0" layoutY="384.0" text="Listado de clientes" />
+                        <TableView fx:id="tableViewClientes" layoutX="60.0" layoutY="410.0" prefHeight="201.0" prefWidth="685.0">
+                          <columns>
+                            <TableColumn fx:id="columNombreCliente" prefWidth="101.0" text="Nombre" />
+                            <TableColumn fx:id="columApellidoCliente" prefWidth="96.0" text="Apellido" />
+                              <TableColumn fx:id="columIdentificacionCliente" prefWidth="140.0" text="Identificacion" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="btnAniadir" layoutX="440.0" layoutY="343.0" mnemonicParsing="false" onAction="#agregarCliente" text="Añadir" />
+                        <Button fx:id="btnLimpiar" layoutX="317.0" layoutY="343.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar" />
+                        <Button fx:id="btnActualizar" layoutX="327.0" layoutY="624.0" mnemonicParsing="false" onAction="#actualizarCliente" text="Actualizar" />
+                        <Button fx:id="btnEliminar" layoutX="446.0" layoutY="624.0" mnemonicParsing="false" onAction="#eliminarCliente" text="Eliminar" />
+                        <ImageView fitHeight="116.0" fitWidth="135.0" layoutX="69.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../cliente.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="416.0" layoutY="214.0" text="Direccion" />
+                        <TextField fx:id="txtDireccion" layoutX="561.0" layoutY="210.0" prefHeight="25.0" prefWidth="216.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Administracion de Productos">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Información del producto" />
+                        <Label layoutX="292.0" layoutY="98.0" text="¿Qué tipo de producto desea registrar?" />
+                        <ComboBox fx:id="comboBoxTipoProducto" layoutX="526.0" layoutY="94.0" prefHeight="25.0" prefWidth="253.0" />
+                        <Label layoutX="304.0" layoutY="160.0" text="Nombre: del producto" />
+                        <Label layoutX="33.0" layoutY="238.0" text="Código:" />
+                        <Label layoutX="33.0" layoutY="286.0" text="Valor unitario:" />
+                        <Label layoutX="34.0" layoutY="338.0" text="Cantidad:" />
+                        <Label layoutX="40.0" layoutY="446.0" text="Descripcion" />
+                        <TextField fx:id="txtNombreProducto" layoutX="529.0" layoutY="156.0" prefHeight="25.0" prefWidth="248.0" />
+                        <TextField fx:id="txtCodigoProducto" layoutX="149.0" layoutY="234.0" prefHeight="25.0" prefWidth="248.0" />
+                        <TextField fx:id="txtValor" layoutX="149.0" layoutY="282.0" prefHeight="25.0" prefWidth="248.0" />
+                        <TextField fx:id="txtCantidad" layoutX="150.0" layoutY="334.0" prefHeight="25.0" prefWidth="248.0" />
+                        <TextField fx:id="txtDescripcion" layoutX="144.0" layoutY="405.0" prefHeight="136.0" prefWidth="259.0" />
+                        <Label layoutX="459.0" layoutY="388.0" text="Fecha de vencimiento" />
+                        <Label layoutX="458.0" layoutY="278.0" text="Código de aprobación" />
+                        <Label layoutX="457.0" layoutY="326.0" text="Temperatura recomendada" />
+                        <Label layoutX="454.0" layoutY="455.0" text="Fecha de envasado" />
+                        <Label layoutX="462.0" layoutY="232.0" text="Peso del envase" />
+                        <Label layoutX="463.0" layoutY="514.0" text="Pais de origen" />
+                        <TextField fx:id="txtPesoEnvase" layoutX="627.0" layoutY="228.0" prefHeight="25.0" prefWidth="159.0" />
+                        <TextField fx:id="txtCodigoAprobacion" layoutX="627.0" layoutY="275.0" prefHeight="25.0" prefWidth="161.0" />
+                        <TextField fx:id="txtTemperatura" layoutX="627.0" layoutY="326.0" prefHeight="25.0" prefWidth="160.0" />
+                        <DatePicker fx:id="datePickerFechaVencimiento" layoutX="626.0" layoutY="384.0" prefHeight="25.0" prefWidth="162.0" />
+                        <DatePicker fx:id="datePickerFechaEnvasado" layoutX="625.0" layoutY="451.0" prefHeight="25.0" prefWidth="164.0" />
+                        <ComboBox fx:id="comboBoxPaisOrigen" layoutX="625.0" layoutY="510.0" prefHeight="25.0" prefWidth="163.0" />
+                        <Separator layoutX="14.0" layoutY="42.0" prefHeight="0.0" prefWidth="818.0" />
+                        <Separator layoutY="590.0" prefHeight="4.0" prefWidth="792.0" />
+                        <ImageView fitHeight="138.0" fitWidth="171.0" layoutX="47.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../productos.png" />
+                           </image>
+                        </ImageView>
+                        <Button fx:id="btnNuevoProducto" layoutX="321.0" layoutY="603.0" mnemonicParsing="false" onAction="#limpiarCamposProductos" text="Nuevo" />
+                        <Button fx:id="btnAniadirProducto" layoutX="448.0" layoutY="603.0" mnemonicParsing="false" onAction="#agregarProducto" text="Añadir" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Lista Productos">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableViewProductos" layoutX="6.0" layoutY="6.0" prefHeight="595.0" prefWidth="789.0">
+                          <columns>
+                            <TableColumn fx:id="columNombreProducto" prefWidth="75.0" text="Nombre" />
+                            <TableColumn fx:id="columCodigo" prefWidth="75.0" text="Codigo" />
+                              <TableColumn fx:id="columValor" prefWidth="112.0" text="Valor unitario" />
+                              <TableColumn fx:id="columCantidad" prefWidth="84.0" text="Cantidad" />
+                              <TableColumn fx:id="columDescripcion" prefWidth="442.0" text="Descripcion" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="btnVender" layoutX="348.0" layoutY="608.0" mnemonicParsing="false" onAction="#venderProducto" text="Vender" />
+                        <Button fx:id="btnEliminarProducto" layoutX="466.0" layoutY="608.0" mnemonicParsing="false" onAction="#eliminarProducto" text="Eliminar" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

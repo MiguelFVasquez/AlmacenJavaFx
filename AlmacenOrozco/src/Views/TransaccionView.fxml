@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="532.0" prefWidth="487.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="226.0" layoutY="14.0" text="Factura" />
+      <Button layoutX="202.0" layoutY="493.0" mnemonicParsing="false" text="Generar Factura" />
+      <Label layoutX="44.0" layoutY="64.0" text="Código" />
+      <Label layoutX="48.0" layoutY="103.0" text="Fecha" />
+      <Label layoutX="44.0" layoutY="146.0" text="Cédula del Cliente" />
+      <Label layoutX="50.0" layoutY="441.0" text="Total" />
+      <Label layoutX="48.0" layoutY="398.0" text="IVA" />
+      <TextField layoutX="252.0" layoutY="60.0" prefHeight="25.0" prefWidth="165.0" />
+      <TextField layoutX="252.0" layoutY="99.0" prefHeight="25.0" prefWidth="165.0" />
+      <TextField layoutX="252.0" layoutY="142.0" prefHeight="25.0" prefWidth="165.0" />
+      <TextField layoutX="119.0" layoutY="437.0" prefHeight="25.0" prefWidth="165.0" />
+      <TextField layoutX="119.0" layoutY="394.0" prefHeight="25.0" prefWidth="165.0" />
+      <TableView layoutX="26.0" layoutY="183.0" prefHeight="200.0" prefWidth="426.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Cantidad" />
+            <TableColumn prefWidth="75.0" text="Codigo" />
+            <TableColumn prefWidth="129.0" text="Nombre del Producto" />
+            <TableColumn prefWidth="146.0" text="Subtota" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
