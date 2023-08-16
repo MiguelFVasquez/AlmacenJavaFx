@@ -49,6 +49,15 @@ public class Singleton {
 		return flag;
 	}
 
+	/**
+	 * Borrar esta funcion
+	 * @return
+	 */
+	public boolean prueba() {
+		return false;
+	}
+
+
 	public List<Cliente> getListaClientes() {
 		return almacen.getListaClientes();
 	}
