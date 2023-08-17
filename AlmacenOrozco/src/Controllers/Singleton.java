@@ -4,10 +4,17 @@ import java.time.LocalDate;
 import java.util.List;
 
 import Exceptions.ClienteException;
+import Exceptions.ProductoException;
 import Model.Almacen;
 import Model.Cliente;
 import Model.ClienteJuridico;
 import Model.ClienteNatural;
+import Model.Producto;
+import Model.ProductoEnvasado;
+import Model.ProductoPerecedero;
+import Model.ProductoRefrigerado;
+import Model.TipoPaisOrigen;
+import Model.TipoProducto;
 
 public class Singleton {
 
@@ -69,6 +76,40 @@ public class Singleton {
 	public boolean eliminarCliente(Cliente clienteSeleccion) throws ClienteException {
 		boolean flag = almacen.eliminarPersona(clienteSeleccion);
 		return flag;
+	}
+
+	public boolean crearProductoRefrigerado(String nombreProducto, String codigo, String cantidad, String descrp, String valor,
+			String codigoAprob, String temperatura) throws ProductoException {
+		Double valorU = Double.parseDouble(valor);
+		int cantidadP = Integer.parseInt(cantidad);
+		ProductoRefrigerado newProducto = new ProductoRefrigerado(codigo, nombreProducto, descrp, valorU, cantidadP,
+				TipoProducto.REFRIGERADO, codigoAprob, temperatura);
+		boolean flag = almacen.crearProductoRefrigerado(newProducto);
+		return flag;
+	}
+
+	public boolean crearProductoEnvasado(String nombreProducto, String codigo, String cantidad, String descrp,
+			String valor, String fechaEnvasado, String pesoEnvase, TipoPaisOrigen paisOrigen) throws ProductoException {
+		Double valorU = Double.parseDouble(valor);
+		int cantidadP = Integer.parseInt(cantidad);
+		ProductoEnvasado producto = new ProductoEnvasado(codigo, nombreProducto, descrp, valorU, cantidadP,
+				TipoProducto.ENVASADO, fechaEnvasado, pesoEnvase, paisOrigen);
+		boolean flag = almacen.crearProductoEnvasado(producto);
+		return flag;
+	}
+
+	public boolean crearProductoPerecedero(String nombreProducto, String codigo, String cantidad, String descrp,
+			String valor, String fechaVencimiento) throws ProductoException {
+		Double valorU = Double.parseDouble(valor);
+		int cantidadP = Integer.parseInt(cantidad);
+		ProductoPerecedero newProducto = new ProductoPerecedero(codigo, nombreProducto, descrp, valorU,
+				cantidadP, TipoProducto.PERECEDERO, fechaVencimiento);
+		boolean flag = almacen.crearProductoPerecedero(newProducto);
+		return flag;
+	}
+
+	public List<Producto> getListaProductos() {
+		return almacen.getListaProductos();
 	}
 
 

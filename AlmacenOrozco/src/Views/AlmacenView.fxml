@@ -45,11 +45,7 @@
                         <Button fx:id="btnLimpiar" layoutX="317.0" layoutY="343.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar" />
                         <Button fx:id="btnActualizar" layoutX="327.0" layoutY="624.0" mnemonicParsing="false" onAction="#actualizarCliente" text="Actualizar" />
                         <Button fx:id="btnEliminar" layoutX="446.0" layoutY="624.0" mnemonicParsing="false" onAction="#eliminarCliente" text="Eliminar" />
-                        <ImageView fitHeight="116.0" fitWidth="135.0" layoutX="69.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../cliente.png" />
-                           </image>
-                        </ImageView>
+                        <ImageView fx:id="imageCliente" fitHeight="116.0" fitWidth="135.0" layoutX="69.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" />
                         <Label layoutX="416.0" layoutY="214.0" text="Direccion" />
                         <TextField fx:id="txtDireccion" layoutX="561.0" layoutY="210.0" prefHeight="25.0" prefWidth="216.0" />
                      </children>
@@ -62,7 +58,7 @@
                      <children>
                         <Label layoutX="14.0" layoutY="14.0" text="Información del producto" />
                         <Label layoutX="292.0" layoutY="98.0" text="¿Qué tipo de producto desea registrar?" />
-                        <ComboBox fx:id="comboBoxTipoProducto" layoutX="526.0" layoutY="94.0" prefHeight="25.0" prefWidth="253.0" />
+                        <ComboBox fx:id="comboBoxTipoProducto" layoutX="526.0" layoutY="94.0" onAction="#listenerTipoProducto" prefHeight="25.0" prefWidth="253.0" />
                         <Label layoutX="304.0" layoutY="160.0" text="Nombre: del producto" />
                         <Label layoutX="33.0" layoutY="238.0" text="Código:" />
                         <Label layoutX="33.0" layoutY="286.0" text="Valor unitario:" />
