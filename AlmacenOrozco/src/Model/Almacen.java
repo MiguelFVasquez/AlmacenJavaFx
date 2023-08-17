@@ -110,10 +110,11 @@ public class Almacen {
 	 * @throws ClienteException
 	 */
 	public boolean crearClienteNatural(ClienteNatural newCliente) throws ClienteException{
-		boolean creado= false;
+		boolean creado = false;
 		if (verificarCliente(newCliente.getIdentificacion())) {
 			throw new ClienteException("El cliente que desea registrar ya se encuentra en el sistema");
-		}else {
+		}
+		else {
 			creado=true;
 			listaClientes.add(newCliente);
 		}
@@ -127,9 +128,9 @@ public class Almacen {
 	 * @throws ClienteException
 	 */
 	public boolean crearClienteJuridico(ClienteJuridico newCliente) throws ClienteException{
-		boolean creado= false;
+		boolean creado = false;
 		if (verificarCliente(newCliente.getIdentificacion())) {
-			throw new ClienteException("El cliente que desea registrar ya se encuentra en el sistama");
+			throw new ClienteException("El cliente que desea registrar ya se encuentra en el sistema");
 		}
 		else {
 			creado=true;
@@ -144,7 +145,7 @@ public class Almacen {
 	 * @return
 	 * @throws ClienteException
 	 */
-	public boolean eliminarPersona(ClienteNatural personaEliminar) throws ClienteException{
+	public boolean eliminarPersona(Cliente personaEliminar) throws ClienteException{
 		boolean eliminado= false;
 		if (obtenerPersona(personaEliminar.getIdentificacion()) == null) {
 			throw new ClienteException("La persona que desea eliminar no se encuentra registrada");

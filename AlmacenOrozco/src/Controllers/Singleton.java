@@ -24,7 +24,11 @@ public class Singleton {
 	}
 
 	public Singleton(){
+		inicializarDatos();
 
+	}
+	private void inicializarDatos() {
+		almacen = new Almacen();
 	}
 
 	public Almacen getAlmacen() {
@@ -60,6 +64,11 @@ public class Singleton {
 
 	public List<Cliente> getListaClientes() {
 		return almacen.getListaClientes();
+	}
+
+	public boolean eliminarCliente(Cliente clienteSeleccion) throws ClienteException {
+		boolean flag = almacen.eliminarPersona(clienteSeleccion);
+		return flag;
 	}
 
 
