@@ -161,6 +161,7 @@ public class AlmacenController implements Initializable{
 	private Stage stage;
 
 	private Cliente clienteSeleccion;
+	private Producto productoSeleccion;
 
 	ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
 
@@ -210,8 +211,7 @@ public class AlmacenController implements Initializable{
     				refrescarTableViewClientes();
     				limpiarCampos(event);
     			}
-    		}
-    		else{
+    		}else{
     			String nit = txtNit.getText();
 
     			if(validarDatos(nombre, apellidos, id, direccion, telefono,nit)){
@@ -222,8 +222,7 @@ public class AlmacenController implements Initializable{
     		}
 
 
-    	}
-    	else{
+    	}else{
     		mostrarMensaje("Tipo de cliente no seleccionado", "Elija un tipo de cliente", "Asegurese de seleccionar un tipo de cliente", AlertType.INFORMATION);
     	}
 
@@ -252,8 +251,7 @@ public class AlmacenController implements Initializable{
     void actualizarCliente(ActionEvent event) {
     	if(clienteSeleccion==null){
     		mostrarMensaje("Cliente seleccion", "Cliente Seleccion", "No se ha seleccionado ningun Cliente", AlertType.WARNING);
-    	}
-    	else{
+    	}else{
     		String nombre = txtNombre.getText();
         	String apellido = txtApellido.getText();
         	String id = txtIdentificacion.getText();
@@ -282,21 +280,19 @@ public class AlmacenController implements Initializable{
 	@FXML
     void eliminarCliente(ActionEvent event) throws ClienteException {
 	  	if(clienteSeleccion!=null){
-    		int confirmacion= JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar este cliente?");
-
-    		if(confirmacion==0){
-
-	    		if(singleton.eliminarCliente(clienteSeleccion)){
-	    			listaClientes.remove(clienteSeleccion);
-	    			limpiarCampos(event);
-	    			mostrarMensaje("Cliente eliminado", "Eliminacion de Cliente", "Se ha eliminado el Cliente con exito", AlertType.INFORMATION);
+	  		try {
+	    		int confirmacion= JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar este cliente?");
+	    		if(confirmacion==0){
+		    		if(singleton.eliminarCliente(clienteSeleccion)){
+		    			listaClientes.remove(clienteSeleccion);
+		    			limpiarCampos(event);
+		    			mostrarMensaje("Cliente eliminado", "Eliminacion de Cliente", "Se ha eliminado el Cliente con exito", AlertType.INFORMATION);
+		    		}
 	    		}
-	    		else{
-	    			mostrarMensaje("Cliente eliminado", "Eliminacion de Cliente", "No se ha podido eliminar el Cliente", AlertType.WARNING);
-	    		}
-    		}
-    	}
-    	else{
+			} catch (ClienteException cException) {
+				mostrarMensaje("Cliente no eliminado", "No se ha eliminado el cliente", cException.getMessage(), AlertType.INFORMATION);
+			}
+    	}else{
     		mostrarMensaje("Cliente seleccion", "Cliente Seleccion", "No se ha seleccionado ningun Cliente", AlertType.WARNING);
     	}
     }
@@ -311,65 +307,28 @@ public class AlmacenController implements Initializable{
 
 	private void crearClienteJuridico(String nombre, String apellidos, String id, String direccion, String telefono,
 			String nit) throws ClienteException {
-		boolean resultado = singleton.crearClienteJuridico(nombre,apellidos,id, direccion, telefono, nit);
-		if(resultado==true){
-			mostrarMensaje("Información Cliente", "Cliente creado", "El cliente se ha creado con éxito", AlertType.INFORMATION);
+
+		try {
+			boolean resultado = singleton.crearClienteJuridico(nombre,apellidos,id, direccion, telefono, nit);
+			if(resultado==true){
+				mostrarMensaje("Información Cliente", "Cliente creado", "El cliente se ha creado con éxito", AlertType.INFORMATION);
+			}
+		} catch (ClienteException cException) {
+			mostrarMensaje("Cliente no creado", "Cliente sin registrar", cException.getMessage(), AlertType.WARNING);
 		}
-		else{
-			mostrarMensaje("Información Cliente", "Cliente no creado", "El cliente no ha sido creado", AlertType.INFORMATION);
-
-		}
-	}
-
-	private boolean validarDatos(String nombre, String apellidos, String id, String direccion, String telefono,
-			String nit) {
-		String notificacion = "";
-
-		/*Se valida que el saldo ingresado no sea null ni sea cadena vacía,
-			además se valida que sea numérico para su correcta conversión */
-
-
-		if (nombre == null || nombre.equals("")) {
-			notificacion += "Ingrese su nombre\n";
-		}
-
-		if (apellidos == null || apellidos.equals("")) {
-			notificacion += "Ingrese sus apellidos\n";
-		}
-		if (id == null || id.equals("")) {
-			notificacion += "Ingrese una identificación\n";
-		}
-
-		if (direccion == null || direccion.equals("")) {
-			notificacion += "Ingrese una dirección\n";
-		}
-
-		if (telefono == null || telefono.equals("")) {
-			notificacion += "Ingrese una dirección\n";
-		}
-
-		if (nit == null || nit.equals("")) {
-			notificacion += "Ingrese un nit\n";
-		}
-
-		if (!notificacion.equals("")) {
-			mostrarMensaje("Notificación", "Cliente no creado", notificacion, AlertType.WARNING);
-			return false;
-		}
-
-		return true;
 	}
 
 	private void crearClienteNatural(String nombre, String apellidos, String id, String direccion, String telefono,
 			String email, String fechaNacimiento) throws ClienteException {
 
-		boolean resultado = singleton.crearClienteNatural(nombre,apellidos,id, direccion, telefono, email, fechaNacimiento);
-		if(resultado==true){
-			mostrarMensaje("Información Cliente", "Cliente creado", "El cliente se ha creado con éxito", AlertType.INFORMATION);
-		}
-		else{
-			mostrarMensaje("Información Cliente", "Cliente no creado", "El cliente no ha sido creado", AlertType.INFORMATION);
+		try {
+			boolean resultado = singleton.crearClienteNatural(nombre,apellidos,id, direccion, telefono, email, fechaNacimiento);
+			if(resultado==true){
+				mostrarMensaje("Información Cliente", "Cliente creado", "El cliente se ha creado con éxito", AlertType.INFORMATION);
+			}
 
+		} catch (ClienteException  cException) {
+			mostrarMensaje("Cliente no creado", "Cliente sin registrar", cException.getMessage(), AlertType.WARNING);
 		}
 	}
 
@@ -416,6 +375,45 @@ public class AlmacenController implements Initializable{
 
 		if (fechaNacimiento == null || fechaNacimiento.equals("")) {
 			notificacion += "Seleccione una fecha de nacimiento\n";
+		}
+
+		if (!notificacion.equals("")) {
+			mostrarMensaje("Notificación", "Cliente no creado", notificacion, AlertType.WARNING);
+			return false;
+		}
+
+		return true;
+	}
+
+	private boolean validarDatos(String nombre, String apellidos, String id, String direccion, String telefono,
+			String nit) {
+		String notificacion = "";
+
+		/*Se valida que el saldo ingresado no sea null ni sea cadena vacía,
+			además se valida que sea numérico para su correcta conversión */
+
+
+		if (nombre == null || nombre.equals("")) {
+			notificacion += "Ingrese su nombre\n";
+		}
+
+		if (apellidos == null || apellidos.equals("")) {
+			notificacion += "Ingrese sus apellidos\n";
+		}
+		if (id == null || id.equals("")) {
+			notificacion += "Ingrese una identificación\n";
+		}
+
+		if (direccion == null || direccion.equals("")) {
+			notificacion += "Ingrese una dirección\n";
+		}
+
+		if (telefono == null || telefono.equals("")) {
+			notificacion += "Ingrese una dirección\n";
+		}
+
+		if (nit == null || nit.equals("")) {
+			notificacion += "Ingrese un nit\n";
 		}
 
 		if (!notificacion.equals("")) {
@@ -675,31 +673,6 @@ public class AlmacenController implements Initializable{
 		}
 		return true;
 	}
-
-	private void crearProductoEnvasado(String nombreProducto, String codigo, String cantidad, String descrp,
-			String valor, String fechaEnvasado, String pesoEnvase, TipoPaisOrigen paisOrigen) throws ProductoException {
-    	boolean flag = singleton.crearProductoEnvasado(nombreProducto, codigo, cantidad, descrp, valor,
-    			fechaEnvasado, pesoEnvase, paisOrigen);
-       	if(flag==true){
-       		mostrarMensaje("Información Producto", "Producto agregado", "El Producto se ha agregado con éxito", AlertType.INFORMATION);
-       	}
-       	else{
-       		mostrarMensaje("Información Producto", "Producto no agregado", "El Producto no ha sido agregado", AlertType.INFORMATION);
-       	}
-	}
-
-	private void crearProductoRefrigerado(String nombreProducto, String codigo, String cantidad, String descrp, String valor,
-			String codigoAprob, String temperatura) throws ProductoException {
-    	boolean flag = singleton.crearProductoRefrigerado(nombreProducto, codigo, cantidad, descrp, valor,
-			 codigoAprob, temperatura);
-    	if(flag==true){
-    		mostrarMensaje("Información Producto", "Producto agregado", "El Producto se ha agregado con éxito", AlertType.INFORMATION);
-    	}
-    	else{
-    		mostrarMensaje("Información Producto", "Producto no agregado", "El Producto no ha sido agregado", AlertType.INFORMATION);
-    	}
-	}
-
 	private boolean validarDatosProductos(String nombreProducto, String codigo, String cantidad, String descrp, String valor,
 			String codigoAprob, String temperatura) {
     	String notificacion = "";
@@ -736,18 +709,49 @@ public class AlmacenController implements Initializable{
 		return true;
 	}
 
-    private void crearProductoPerecedero(String nombreProducto, String codigo, String cantidad, String descrp,
-			String valor, String fechaVencimiento) throws ProductoException {
-    	boolean flag = singleton.crearProductoPerecedero(nombreProducto, codigo, cantidad, descrp, valor,
-    			fechaVencimiento);
-       	if(flag==true){
-       		mostrarMensaje("Información Producto", "Producto agregado", "El Producto se ha agregado con éxito", AlertType.INFORMATION);
-       	}
-       	else{
-       		mostrarMensaje("Información Producto", "Producto no agregado", "El Producto no ha sido agregado", AlertType.INFORMATION);
-       	}
+
+	private void crearProductoEnvasado(String nombreProducto, String codigo, String cantidad, String descrp,
+			String valor, String fechaEnvasado, String pesoEnvase, TipoPaisOrigen paisOrigen) throws ProductoException {
+
+		try {
+	    	boolean flag = singleton.crearProductoEnvasado(nombreProducto, codigo, cantidad, descrp, valor,
+	    			fechaEnvasado, pesoEnvase, paisOrigen);
+	       	if(flag==true){
+	       		mostrarMensaje("Información Producto", "Producto agregado", "El Producto se ha agregado con éxito", AlertType.INFORMATION);
+	       	}
+		} catch (ProductoException pException) {
+			mostrarMensaje("Producto no registrado", "No ha sido posible agregar el producto", pException.getMessage(), AlertType.INFORMATION);
+		}
+
 	}
 
+	private void crearProductoRefrigerado(String nombreProducto, String codigo, String cantidad, String descrp, String valor,
+			String codigoAprob, String temperatura) throws ProductoException {
+		try {
+	    	boolean flag = singleton.crearProductoRefrigerado(nombreProducto, codigo, cantidad, descrp, valor,
+	   			 codigoAprob, temperatura);
+	       	if(flag==true){
+	       		mostrarMensaje("Información Producto", "Producto agregado", "El Producto se ha agregado con éxito", AlertType.INFORMATION);
+	       	}
+		} catch (ProductoException pException) {
+			mostrarMensaje("Producto no registrado", "No ha sido posible agregar el producto", pException.getMessage(), AlertType.INFORMATION);
+		}
+
+	}
+
+    private void crearProductoPerecedero(String nombreProducto, String codigo, String cantidad, String descrp,
+			String valor, String fechaVencimiento) throws ProductoException {
+    	try {
+	    	boolean flag = singleton.crearProductoPerecedero(nombreProducto, codigo, cantidad, descrp, valor,
+	    			fechaVencimiento);
+	       	if(flag==true){
+	       		mostrarMensaje("Información Producto", "Producto agregado", "El Producto se ha agregado con éxito", AlertType.INFORMATION);
+	       	}
+		} catch (ProductoException pException) {
+			mostrarMensaje("Producto no registrado", "No ha sido posible agregar el producto", pException.getMessage(), AlertType.INFORMATION);
+		}
+
+	}
 
 //----------------------------EVENTOS LISTA PRODUCTOS-------------------------------------------------------
   	@FXML
@@ -756,8 +760,23 @@ public class AlmacenController implements Initializable{
       }
 
       @FXML
-      void eliminarProducto(ActionEvent event) {
-
+      void eliminarProducto(ActionEvent event)throws ProductoException {
+    	  if (productoSeleccion!=null) {
+    		  try {
+    			  int confirmacion= JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar este cliente");
+    			  if (confirmacion==0) {
+    				  if (singleton.eliminarProducto(productoSeleccion)) {
+    					  listaProductos.remove(productoSeleccion);
+    					  limpiarCamposProductos(event);
+    					  mostrarMensaje("Eliminacion producto", "Producto eliminado", "Se ha eliminado el producto con exito", AlertType.INFORMATION);
+					}
+				}
+			} catch (ProductoException pException) {
+				mostrarMensaje("Eliminación producto", "Producto no eliminado", pException.getMessage(), AlertType.INFORMATION);
+			}
+		}else{
+			mostrarMensaje("Selección producto", "Producto no seleccionado", "No ha seleccionado ningun producto para eliminar", AlertType.INFORMATION);
+		}
       }
 
 
@@ -790,6 +809,9 @@ public class AlmacenController implements Initializable{
 		datePickerFechaNacimiento.setDisable(true);
 		txtNit.setDisable(true);
 
+		/**
+		 * Inicializacion de las tabla de clientes
+		 */
 		tableViewClientes.getItems().setAll(listaClientes);
 
 		this.columNombreCliente.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -827,13 +849,28 @@ public class AlmacenController implements Initializable{
         //PRODUCTOS
         comboBoxTipoProducto.getItems().addAll(TipoProducto.values());
         comboBoxPaisOrigen.getItems().addAll(TipoPaisOrigen.values());
-
+        /**
+         *Inicializacion tabla de los productos
+         *
+         */
         tableViewProductos.getItems().setAll(listaProductos);
         this.columNombreProducto.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 		this.columCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
 		this.columValor.setCellValueFactory(new PropertyValueFactory<>("valorUnitario"));
 		this.columCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidadExistencia"));
 		this.columDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+
+		tableViewProductos.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			if(newSelection != null){
+				productoSeleccion= newSelection;
+				txtNombreProducto.setText(productoSeleccion.getNombre());
+				txtCodigoProducto.setText(productoSeleccion.getCodigo());
+				txtValor.setText(productoSeleccion.getValorUnitario()+"");
+				txtCantidad.setText(productoSeleccion.getCantidadExistencia()+"");
+				txtDescripcion.setText(productoSeleccion.getDescripcion());
+			}
+		});
+
 
         datePickerFechaVencimiento.setDisable(true);
 		txtCodigoAprobacion.setDisable(true);

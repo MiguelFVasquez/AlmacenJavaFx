@@ -45,7 +45,7 @@ public class Singleton {
 	public void setAlmacen(Almacen almacen) {
 		this.almacen = almacen;
 	}
-
+//-------------------------CLIENTES----------------------------------------
 	public boolean crearClienteNatural(String nombre, String apellido, String id, String direccion, String telefono,
 			String email, String fechaNacimiento) throws ClienteException {
 		ClienteNatural cliente  = new ClienteNatural(nombre, apellido, id, direccion, telefono, email, fechaNacimiento);
@@ -59,25 +59,18 @@ public class Singleton {
 		boolean flag = almacen.crearClienteJuridico(cliente);
 		return flag;
 	}
-
 	/**
-	 * Borrar esta funcion
+	 *
 	 * @return
 	 */
-	public boolean prueba() {
-		return false;
-	}
-
-
 	public List<Cliente> getListaClientes() {
 		return almacen.getListaClientes();
 	}
 
 	public boolean eliminarCliente(Cliente clienteSeleccion) throws ClienteException {
-		boolean flag = almacen.eliminarPersona(clienteSeleccion);
-		return flag;
+		return almacen.eliminarPersona(clienteSeleccion);
 	}
-
+//----------------------PRODUCTOS-----------------------------------------
 	public boolean crearProductoRefrigerado(String nombreProducto, String codigo, String cantidad, String descrp, String valor,
 			String codigoAprob, String temperatura) throws ProductoException {
 		Double valorU = Double.parseDouble(valor);
@@ -106,6 +99,10 @@ public class Singleton {
 				cantidadP, TipoProducto.PERECEDERO, fechaVencimiento);
 		boolean flag = almacen.crearProductoPerecedero(newProducto);
 		return flag;
+	}
+
+	public boolean eliminarProducto(Producto productoSeleccion) throws ProductoException{
+		return almacen.eliminarProducto(productoSeleccion);
 	}
 
 	public List<Producto> getListaProductos() {

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="805.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AlmacenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="805.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AlmacenController">
    <children>
-      <TabPane layoutY="39.0" prefHeight="493.0" prefWidth="684.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TabPane layoutY="39.0" prefHeight="493.0" prefWidth="684.0" style="-fx-background-color: white;" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
           <Tab text="Administracion de Clientes">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
                      <children>
-                        <Label layoutX="14.0" layoutY="14.0" text="Información del cliente" />
                         <Separator layoutX="18.0" layoutY="29.0" prefHeight="5.0" prefWidth="770.0" />
                         <Label layoutX="19.0" layoutY="193.0" text="¿Qué tipo de cliente desea registrar?" />
                         <ComboBox fx:id="comboBoxTipoCliente" layoutX="229.0" layoutY="189.0" onAction="#tipoClienteSeleccionado" prefHeight="25.0" prefWidth="150.0" />
@@ -41,13 +41,37 @@
                               <TableColumn fx:id="columIdentificacionCliente" prefWidth="140.0" text="Identificacion" />
                           </columns>
                         </TableView>
-                        <Button fx:id="btnAniadir" layoutX="440.0" layoutY="343.0" mnemonicParsing="false" onAction="#agregarCliente" text="Añadir" />
-                        <Button fx:id="btnLimpiar" layoutX="317.0" layoutY="343.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar" />
-                        <Button fx:id="btnActualizar" layoutX="327.0" layoutY="624.0" mnemonicParsing="false" onAction="#actualizarCliente" text="Actualizar" />
-                        <Button fx:id="btnEliminar" layoutX="446.0" layoutY="624.0" mnemonicParsing="false" onAction="#eliminarCliente" text="Eliminar" />
-                        <ImageView fx:id="imageCliente" fitHeight="116.0" fitWidth="135.0" layoutX="69.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" />
+                        <Button fx:id="btnAniadir" layoutX="440.0" layoutY="343.0" mnemonicParsing="false" onAction="#agregarCliente" style="-fx-cursor: hand; -fx-background-color: #00C1D1;" text="Añadir" textFill="WHITE">
+                           <font>
+                              <Font name="Bookman Old Style" size="13.0" />
+                           </font></Button>
+                        <Button fx:id="btnLimpiar" layoutX="317.0" layoutY="343.0" mnemonicParsing="false" onAction="#limpiarCampos" style="-fx-cursor: hand; -fx-background-color: #00C1D1;" text="Limpiar" textFill="WHITE">
+                           <font>
+                              <Font name="Bookman Old Style" size="13.0" />
+                           </font></Button>
+                        <Button fx:id="btnActualizar" layoutX="304.0" layoutY="624.0" mnemonicParsing="false" onAction="#actualizarCliente" style="-fx-cursor: hand; -fx-background-color: #00C1D1;" text="Actualizar" textFill="WHITE">
+                           <font>
+                              <Font name="Bookman Old Style" size="13.0" />
+                           </font></Button>
+                        <Button fx:id="btnEliminar" layoutX="437.0" layoutY="624.0" mnemonicParsing="false" onAction="#eliminarCliente" style="-fx-cursor: hand; -fx-background-color: FF2D00;" text="Eliminar" textFill="WHITE">
+                           <font>
+                              <Font name="Bookman Old Style" size="13.0" />
+                           </font></Button>
+                        <ImageView fx:id="imageCliente" fitHeight="126.0" fitWidth="121.0" layoutX="69.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Cliente.png" />
+                           </image></ImageView>
                         <Label layoutX="416.0" layoutY="214.0" text="Direccion" />
                         <TextField fx:id="txtDireccion" layoutX="561.0" layoutY="210.0" prefHeight="25.0" prefWidth="216.0" />
+                        <Pane layoutX="-3.0" prefHeight="32.0" prefWidth="805.0" style="-fx-background-color: #00C1D1;">
+                           <children>
+                              <Label layoutX="14.0" layoutY="4.0" prefHeight="29.0" prefWidth="173.0" text="Información del cliente" textFill="WHITE">
+                                 <font>
+                                    <Font name="Book Antiqua" size="15.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
                      </children>
                   </AnchorPane>
             </content>
@@ -56,7 +80,6 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="14.0" layoutY="14.0" text="Información del producto" />
                         <Label layoutX="292.0" layoutY="98.0" text="¿Qué tipo de producto desea registrar?" />
                         <ComboBox fx:id="comboBoxTipoProducto" layoutX="526.0" layoutY="94.0" onAction="#listenerTipoProducto" prefHeight="25.0" prefWidth="253.0" />
                         <Label layoutX="304.0" layoutY="160.0" text="Nombre: del producto" />
@@ -83,13 +106,24 @@
                         <ComboBox fx:id="comboBoxPaisOrigen" layoutX="625.0" layoutY="510.0" prefHeight="25.0" prefWidth="163.0" />
                         <Separator layoutX="14.0" layoutY="42.0" prefHeight="0.0" prefWidth="818.0" />
                         <Separator layoutY="590.0" prefHeight="4.0" prefWidth="792.0" />
-                        <ImageView fitHeight="138.0" fitWidth="171.0" layoutX="47.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="138.0" fitWidth="171.0" layoutX="75.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../productos.png" />
+                              <Image url="@../images/productos.png" />
                            </image>
                         </ImageView>
-                        <Button fx:id="btnNuevoProducto" layoutX="321.0" layoutY="603.0" mnemonicParsing="false" onAction="#limpiarCamposProductos" text="Nuevo" />
-                        <Button fx:id="btnAniadirProducto" layoutX="448.0" layoutY="603.0" mnemonicParsing="false" onAction="#agregarProducto" text="Añadir" />
+                        <Button fx:id="btnNuevoProducto" layoutX="307.0" layoutY="603.0" mnemonicParsing="false" onAction="#limpiarCamposProductos" prefHeight="29.0" prefWidth="72.0" style="-fx-cursor: hand; -fx-background-color: #00CDDE;" text="Nuevo" textFill="WHITE">
+                           <font>
+                              <Font name="Bookman Old Style" size="13.0" />
+                           </font></Button>
+                        <Button fx:id="btnAniadirProducto" layoutX="448.0" layoutY="603.0" mnemonicParsing="false" onAction="#agregarProducto" prefHeight="30.0" prefWidth="65.0" style="-fx-cursor: hand; -fx-background-color: #00CDDE;" text="Añadir" textFill="WHITE">
+                           <font>
+                              <Font name="Bookman Old Style" size="13.0" />
+                           </font></Button>
+                        <Pane layoutX="-2.0" layoutY="1.0" prefHeight="45.0" prefWidth="805.0" style="-fx-background-color: #00C1D1;" />
+                        <Label layoutX="14.0" layoutY="14.0" text="Información del producto" textFill="WHITE">
+                           <font>
+                              <Font name="Book Antiqua" size="15.0" />
+                           </font></Label>
                      </children>
                   </AnchorPane>
             </content>
@@ -107,8 +141,8 @@
                               <TableColumn fx:id="columDescripcion" prefWidth="442.0" text="Descripcion" />
                           </columns>
                         </TableView>
-                        <Button fx:id="btnVender" layoutX="348.0" layoutY="608.0" mnemonicParsing="false" onAction="#venderProducto" text="Vender" />
-                        <Button fx:id="btnEliminarProducto" layoutX="466.0" layoutY="608.0" mnemonicParsing="false" onAction="#eliminarProducto" text="Eliminar" />
+                        <Button fx:id="btnVender" layoutX="348.0" layoutY="608.0" mnemonicParsing="false" onAction="#venderProducto" style="-fx-cursor: hand; -fx-background-color: #00CDDE;" text="Vender" textFill="WHITE" />
+                        <Button fx:id="btnEliminarProducto" layoutX="466.0" layoutY="608.0" mnemonicParsing="false" onAction="#eliminarProducto" style="-fx-cursor: hand; -fx-background-color: FF2D00;" text="Eliminar" textFill="WHITE" />
                      </children>
                   </AnchorPane>
               </content>

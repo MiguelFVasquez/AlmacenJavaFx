@@ -70,7 +70,9 @@ public class Almacen {
 	 */
 	public Cliente obtenerPersona(String cedula){
 		return (Cliente) listaClientes.stream()
-				.filter(c->c.getIdentificacion().equals(cedula));
+				.filter(c -> c.getIdentificacion().equals(cedula))
+				.findFirst()
+				.orElse(null);
 	}
 
 	/** Verifica si un cliente es igual a traves de la cedula
@@ -183,7 +185,10 @@ public class Almacen {
 	 * @return
 	 */
 	public Producto obtenerProducto(String codigo) {
-		return (Producto) listaProductos.stream().filter(p ->p.getCodigo().equals(codigo));
+		return (Producto) listaProductos.stream()
+				.filter(p ->p.getCodigo().equals(codigo))
+				.findFirst()
+				.orElse(null);
 	}
 
 //---------------------------A TENER EN CUENTA----------------------------------
