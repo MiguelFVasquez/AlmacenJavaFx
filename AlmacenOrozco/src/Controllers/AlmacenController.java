@@ -149,6 +149,8 @@ public class AlmacenController implements Initializable{
     private TableView<Producto> tableViewProductos;
 
     @FXML
+    private TableColumn<Producto, TipoProducto> columTipoProducto;
+    @FXML
     private TableColumn<Producto, String> columNombreProducto;
     @FXML
     private TableColumn<Producto, String> columCodigo;
@@ -233,6 +235,7 @@ public class AlmacenController implements Initializable{
     			if(validarDatos(nombre, apellidos, id, direccion, telefono,nit)){
     				crearClienteJuridico(nombre, apellidos, id, direccion, telefono, nit);
     				refrescarTableViewClientes();
+    				System.out.println(tableViewClientes.getItems().toString());
     				limpiarCampos(event);
     			}
     		}
@@ -825,19 +828,21 @@ public class AlmacenController implements Initializable{
     }
 
 
-    private ObservableList<DetalleTransaccion> getListaDetalles(List<DetalleTransaccion> listaDetallesTransaccion){
-//		List<DetalleTransaccion> listaDetallesTransaccion= new ArrayList<>();
+    private ObservableList<DetalleTransaccion> getListaDetalles(DetalleTransaccion DetallesTransaccion){
+    	List<DetalleTransaccion> listaDetallesTransaccion= new ArrayList<>();
 
 //    	Producto productoVenta= productoSeleccion;
 //    	Double subTotal= productoVenta.getValorUnitario()*cantidad;
 //		DetalleTransaccion detalle= new DetalleTransaccion(cantidad, subTotal, productoVenta);
 
-//		listaDetallesTransaccion.add(detalle);
-    	listaDetalles.clear();
-    	listaDetalles.addAll(listaDetallesTransaccion);
+		listaDetallesTransaccion.add(DetallesTransaccion);
+//    	listaDetalles.clear();
+//    	listaDetalles.addAll(listaDetallesTransaccion);
     	return listaDetalles;
 
     }
+
+
 
 
     private void actualizarListaDetalles(Integer cantidad, Double subTotal) {
@@ -849,7 +854,14 @@ public class AlmacenController implements Initializable{
     	System.out.println(listaDetalles.toString());
 
 
-        transaccionVenta.getTableViewDetalle().getItems().setAll(listaDetalles);
+        transaccionVenta.getTableViewDetalle().getItems().setAll(getListaDetalles(detalle));
+        if (transaccionVenta.getTableViewDetalle().getItems()==null) {
+        	System.out.println("Tabla vacia, ");
+		}else {
+			System.out.println("---------------------------------------"+"Lista detalles" + getListaDetalles(detalle));
+			System.out.println("Tabla"+transaccionVenta.getTableViewDetalle().getItems().toString());
+		}
+
     }
 
 
@@ -879,6 +891,7 @@ public class AlmacenController implements Initializable{
   	        if (singleton.venderProducto(productoSeleccion)) {
   	            System.out.println("VENDIDO");
   	            actualizarListaDetalles(cantidadVender, subTotal);
+
   	            mostrarMensaje("Producto vendido", "Producto vendido con exito", "El producto ha sido vendido con exito", AlertType.INFORMATION);
   	        } else {
   	            System.out.println("No vendido");
@@ -942,8 +955,6 @@ public class AlmacenController implements Initializable{
 	 		transaccionController.getDatePickerFecha().setEditable(false);
 
 //	 		transaccionController.getTableViewDetalle().setItems(getListaDetalles());
-
-
 	 		stage.show();
 	 		this.stage.close();
 
@@ -1023,6 +1034,7 @@ public class AlmacenController implements Initializable{
          *
          */
         tableViewProductos.getItems().setAll(listaProductos);
+        this.columTipoProducto.setCellValueFactory(new PropertyValueFactory<>("tipoProducto"));
         this.columNombreProducto.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 		this.columCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
 		this.columValor.setCellValueFactory(new PropertyValueFactory<>("valorUnitario"));

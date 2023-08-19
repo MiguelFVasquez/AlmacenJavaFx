@@ -123,15 +123,19 @@ public class Singleton {
 	}
 
 //-----------------------------TRANSACCIONES----------------------------
-	public boolean crearTransaccion(String codigo,String fecha, String cedulaCliente, String total, String iva, List<DetalleTransaccion> listaDetalles) throws TransaccionException {
+	public boolean crearTransaccion(String codigo,String fecha, String cedulaCliente, String total, String iva) throws TransaccionException {
 		double totalT= Double.parseDouble(total);
 		float ivaT= Float.parseFloat(iva);
 		Cliente clienteVenta= almacen.obtenerPersona(cedulaCliente);
-		Transaccion newTransaccion= new Transaccion(codigo, fecha, clienteVenta, totalT, ivaT, listaDetalles);
+		Transaccion newTransaccion= new Transaccion(codigo, fecha, clienteVenta, totalT, ivaT);
 		return almacen.crearTransaccion(newTransaccion);
 
 	}
 
+
+	public boolean eliminarTransaccion(Transaccion eliminarTransaccion) throws TransaccionException{
+		return almacen.eliminarTransaccion(eliminarTransaccion);
+	}
 
 
 

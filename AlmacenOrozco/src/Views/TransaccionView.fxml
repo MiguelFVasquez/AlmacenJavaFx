@@ -45,7 +45,7 @@
                      </children>
                   </Pane>
                   <DatePicker fx:id="datePickerFecha" layoutX="326.0" layoutY="116.0" prefHeight="22.0" prefWidth="150.0" />
-                  <Button fx:id="btnButton" layoutX="140.0" layoutY="531.0" mnemonicParsing="false" onAction="#volver" text="Volver" />
+                  <Button fx:id="btnButton" layoutX="140.0" layoutY="531.0" mnemonicParsing="false" onAction="#volver" style="-fx-background-color: FF2D00;" text="Volver" textFill="WHITE" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -62,7 +62,7 @@
                         <TableColumn fx:id="columTotal" prefWidth="189.0" text="Total" />
                     </columns>
                   </TableView>
-                  <Button fx:id="btnEliminar" layoutX="218.0" layoutY="521.0" mnemonicParsing="false" onAction="#eliminarTransaccion" text="Eliminar" />
+                  <Button fx:id="btnEliminar" layoutX="218.0" layoutY="521.0" mnemonicParsing="false" onAction="#eliminarTransaccion" style="-fx-background-color: FF2D00; -fx-cursor: hand;" text="Eliminar" textFill="WHITE" />
                </children></AnchorPane>
       </content>
     </Tab>

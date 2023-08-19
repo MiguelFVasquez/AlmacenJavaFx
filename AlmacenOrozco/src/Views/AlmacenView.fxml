@@ -134,16 +134,17 @@
                      <children>
                         <TableView fx:id="tableViewProductos" layoutX="6.0" layoutY="6.0" prefHeight="595.0" prefWidth="789.0">
                           <columns>
-                            <TableColumn fx:id="columNombreProducto" prefWidth="75.0" text="Nombre" />
-                            <TableColumn fx:id="columCodigo" prefWidth="75.0" text="Codigo" />
-                              <TableColumn fx:id="columValor" prefWidth="112.0" text="Valor unitario" />
-                              <TableColumn fx:id="columCantidad" prefWidth="84.0" text="Cantidad" />
-                              <TableColumn fx:id="columDescripcion" prefWidth="442.0" text="Descripcion" />
+                              <TableColumn fx:id="columTipoProducto" prefWidth="113.0" text="Tipo Producto" />
+                            <TableColumn fx:id="columNombreProducto" prefWidth="101.0" text="Nombre" />
+                            <TableColumn fx:id="columCodigo" minWidth="0.0" prefWidth="96.0" text="Codigo" />
+                              <TableColumn fx:id="columValor" prefWidth="105.0" text="Valor unitario" />
+                              <TableColumn fx:id="columCantidad" prefWidth="89.0" text="Cantidad" />
+                              <TableColumn fx:id="columDescripcion" prefWidth="352.0" text="Descripcion" />
                           </columns>
                         </TableView>
                         <Button fx:id="btnVender" layoutX="419.0" layoutY="608.0" mnemonicParsing="false" onAction="#venderProducto" style="-fx-cursor: hand; -fx-background-color: #00CDDE;" text="Vender" textFill="WHITE" />
                         <Button fx:id="btnEliminarProducto" layoutX="558.0" layoutY="608.0" mnemonicParsing="false" onAction="#eliminarProducto" style="-fx-cursor: hand; -fx-background-color: FF2D00;" text="Eliminar" textFill="WHITE" />
-                        <Button fx:id="btnAbrirFacturas" layoutX="273.0" layoutY="608.0" mnemonicParsing="false" onAction="#showFacturasView" text="Generar Factura" />
+                        <Button fx:id="btnAbrirFacturas" layoutX="273.0" layoutY="608.0" mnemonicParsing="false" onAction="#showFacturasView" style="-fx-background-color: #00CDDE; -fx-cursor: hand;" text="Generar Factura" textFill="WHITE" />
                      </children>
                   </AnchorPane>
               </content>

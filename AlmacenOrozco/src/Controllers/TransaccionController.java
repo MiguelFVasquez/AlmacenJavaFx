@@ -4,7 +4,10 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import Application.Aplicacion;
+import Exceptions.TransaccionException;
 
 import java.util.ArrayList;
 
@@ -99,6 +102,13 @@ public class TransaccionController implements Initializable{
 
 	private Aplicacion aplicacion;
 
+	private Transaccion transaccionSeleccion;
+
+
+    public void actualizarTableView(ObservableList<DetalleTransaccion> nuevosDetalles) {
+        tableViewDetalle.getItems().setAll(nuevosDetalles);
+    }
+
 
     private ObservableList<Transaccion> getListaTransacciones(){
     	listaTransacciones.clear();
@@ -147,41 +157,55 @@ public class TransaccionController implements Initializable{
 
 
     @FXML
-    void generarFactura(ActionEvent event) {
+    void generarFactura(ActionEvent event) throws TransaccionException {
     	String codigo= txtCodigo.getText();
     	String fecha= datePickerFecha.getValue().toString();
     	String cedula= txtCedulaTransaccion.getText();
     	String iva= txtIva.getText();
     	String total= txtTotal.getText();
 
-    	Double subTotal = Double.parseDouble(columSubtotal.getText());
-    	Integer cantidadDetalle= Integer.parseInt(columCantidad.getText());
-    	Producto productoVenta= (Producto) columProducto.getUserData();
-
-    	DetalleTransaccion detalleTransaccion= new DetalleTransaccion(cantidadDetalle,subTotal,productoVenta);
-    	List<DetalleTransaccion> listaDetalles= new ArrayList<>();
-    	listaDetalles.add(detalleTransaccion);
+//    	Double subTotal = Double.parseDouble(columSubtotal.getText());
+//    	Integer cantidadDetalle= Integer.parseInt(columCantidad.getText());
+//    	Producto productoVenta= (Producto) columProducto.getUserData();
+//
+//    	DetalleTransaccion detalleTransaccion= new DetalleTransaccion(cantidadDetalle,subTotal,productoVenta);
+//    	List<DetalleTransaccion> listaDetalles= new ArrayList<>();
+//    	listaDetalles.add(detalleTransaccion);
 
     	if (validarDatos(codigo, fecha, cedula, iva, total)) {
-    		crearTransaccion(codigo, fecha, cedula, iva, total, listaDetalles);
+    		crearTransaccion(codigo, fecha, cedula, iva, total);
     		refrescarListaTransacciones();
     	}
     }
 
-    private void crearTransaccion(String codigo, String fecha, String cedula, String iva, String total,List<DetalleTransaccion> listaDetalles ){
+    private void crearTransaccion(String codigo, String fecha, String cedula, String iva, String total) throws TransaccionException{
     	try {
-    		boolean resultado= singleton.crearTransaccion(codigo, fecha, cedula, total, iva, listaDetalles);
-    				if (resultado) {
-    					mostrarMensaje("Información transacción", "Transaccion generada", "La transacción se ha generado con exito", AlertType.INFORMATION);
-					}
-		} catch (Exception e) {
+    		if (singleton.crearTransaccion(codigo, fecha, cedula, total, iva)) {
+    			mostrarMensaje("Información transacción", "Transaccion generada", "La transacción se ha generado con exito", AlertType.INFORMATION);
+    		}
+		} catch (TransaccionException tException) {
+			mostrarMensaje("Información transacción", "Transaccion no generada", tException.getMessage(), AlertType.INFORMATION);
 		}
     }
 
 
     @FXML
     void eliminarTransaccion(ActionEvent event) {
-
+    	if (transaccionSeleccion!=null) {
+    		try {
+    			int confirmacion= JOptionPane.showConfirmDialog(null, "Seguro que desea eliminar esta transaccion?");
+    			if (confirmacion==0) {
+    				if (singleton.eliminarTransaccion(transaccionSeleccion)) {
+    					listaTransacciones.remove(transaccionSeleccion);
+    					mostrarMensaje("Información transaccion", "Transacción eliminado", "Se ha eliminado la transaccion correctamente", AlertType.INFORMATION);
+					}
+				}
+			} catch (TransaccionException tException) {
+				mostrarMensaje("Información transacción", "Transaccion no eliminada", tException.getMessage(), AlertType.INFORMATION );
+			}
+		}else {
+			mostrarMensaje("Seleccion transaccion", "Transaccion no seleccionada", "Asegurese de seleccionar una transaccion antes de eliminarla", AlertType.WARNING);
+		}
     }
 
     @FXML
@@ -296,12 +320,25 @@ public class TransaccionController implements Initializable{
 		this.columSubtotal.setCellValueFactory(new PropertyValueFactory<>("subTotal"));
 
 
+		this.columCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+		this.columFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+		this.columCliente.setCellValueFactory(new PropertyValueFactory<>("clienteTransaccion"));
+		this.columIva.setCellValueFactory(new PropertyValueFactory<>("iva"));
+		this.columTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
 
+		tableViewTransacciones.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			if(newSelection != null){
+				transaccionSeleccion= newSelection;
+
+			}
+		});
 
 		TextFormatter<Integer> textFormatter3 = new TextFormatter<>(new IntegerStringConverter(), 0,
         		c -> c.getControlNewText().matches("\\d*") ? c : null);
 		txtTotal.setTextFormatter(textFormatter3);
-		//txtIva.setTextFormatter(textFormatter3);
+		TextFormatter<Integer> textFormatter4 = new TextFormatter<>(new IntegerStringConverter(), 0,
+        		c -> c.getControlNewText().matches("\\d*") ? c : null);
+		txtIva.setTextFormatter(textFormatter4);
 
 
 

@@ -55,7 +55,7 @@ public class ClienteJuridico extends Cliente {
 
 	@Override
 	public String toString() {
-		return "ClienteJuridico [nit=" + nit + "]";
+		return super.toString()+ "\nCliente Juridico nit: " + nit ;
 	}
 
 
