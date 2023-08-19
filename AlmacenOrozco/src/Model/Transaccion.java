@@ -92,6 +92,24 @@ public class Transaccion {
 		this.listaDetalles = listaDetalles;
 	}
 
+	/**
+	 *
+	 * Se recorre la lista de detalles, se verifica que el producto asociado tenga suficiente cantidad para ser vendido, si es el caso, se llama a la funcion nuevaCantidad()
+	 * La cual toma al producto en cuention y a la cantidad actual le resta la cantidad indicada en el destalle y se setea el valor en existencia del producto
+	 * @return
+	 */
+	public boolean verificarDetalles() {
+		boolean flag= false;
+		for (DetalleTransaccion detalleTransaccionAux : listaDetalles) {
+			if (detalleTransaccionAux.verificarProducto()) {
+				int nuevaCantidad= detalleTransaccionAux.nuevaCantidad();
+				detalleTransaccionAux.getProductoVendido().setCantidadExistencia(nuevaCantidad);
+				flag= true;
+				return flag;
+			}
+		}
+		return flag;
+	}
 
 
 	@Override

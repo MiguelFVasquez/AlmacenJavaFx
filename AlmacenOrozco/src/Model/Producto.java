@@ -90,6 +90,19 @@ public class Producto {
 		this.tipoProducto = tipoProducto;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
+	public boolean verificarCantidad(){
+		if (this.cantidadExistencia<=0) {
+			return false;
+		}
+		return true;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Producto \nCodigo: " + codigo + "\nNombre: " + nombre + "\nDescripcion: " + descripcion + "\nValor Unitario: "+ valorUnitario +

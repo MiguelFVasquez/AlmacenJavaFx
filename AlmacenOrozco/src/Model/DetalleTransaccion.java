@@ -1,5 +1,8 @@
 package Model;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 public class DetalleTransaccion {
 
 	private int cantidad;
@@ -40,6 +43,20 @@ public class DetalleTransaccion {
 	public void setProductoVendido(Producto productoVendido) {
 		this.productoVendido = productoVendido;
 	}
+
+	public boolean verificarProducto(){
+		return this.productoVendido.verificarCantidad();
+	}
+
+	public int nuevaCantidad(){
+		return this.productoVendido.getCantidadExistencia() - this.cantidad;
+	}
+
+    public DoubleProperty getSubtotalProperty() {
+        return new SimpleDoubleProperty(subTotal);
+    }
+
+
 
 	@Override
 	public String toString() {

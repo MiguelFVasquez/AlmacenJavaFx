@@ -1,12 +1,17 @@
 package Controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
 import Model.Cliente;
+import Model.DetalleTransaccion;
 import Model.Persona;
 import Model.Producto;
 import Model.TipoCliente;
@@ -19,12 +24,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -32,6 +40,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
@@ -99,6 +108,10 @@ public class AlmacenController implements Initializable{
 
 	ObservableList<Cliente> listaClientes = FXCollections.observableArrayList();
 
+	ObservableList <DetalleTransaccion> listaDetalles= FXCollections.observableArrayList();
+
+	ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
+
 //--------------------ELEMENTO DE LOS PRODUCTOS----------------------
 
     @FXML
@@ -156,6 +169,9 @@ public class AlmacenController implements Initializable{
     @FXML
     private Button btnEliminarProducto;
 
+    @FXML
+    private Button btnAbrirFacturas;
+
 	private Aplicacion aplicacion;
 
 	private Stage stage;
@@ -163,7 +179,7 @@ public class AlmacenController implements Initializable{
 	private Cliente clienteSeleccion;
 	private Producto productoSeleccion;
 
-	ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
+
 
 
 //--------------------------------EVENTOS CLIENTES--------------------------------------------------------
@@ -221,12 +237,9 @@ public class AlmacenController implements Initializable{
     			}
     		}
 
-
     	}else{
     		mostrarMensaje("Tipo de cliente no seleccionado", "Elija un tipo de cliente", "Asegurese de seleccionar un tipo de cliente", AlertType.INFORMATION);
     	}
-
-
     }
 
 	@FXML
@@ -323,7 +336,7 @@ public class AlmacenController implements Initializable{
 
 		try {
 			boolean resultado = singleton.crearClienteNatural(nombre,apellidos,id, direccion, telefono, email, fechaNacimiento);
-			if(resultado==true){
+			if(resultado){
 				mostrarMensaje("Información Cliente", "Cliente creado", "El cliente se ha creado con éxito", AlertType.INFORMATION);
 			}
 
@@ -603,6 +616,22 @@ public class AlmacenController implements Initializable{
 		return listaProductos;
 	}
 
+
+	private static String mezclarPalabra(String palabra) {
+	        char[] letras = palabra.toCharArray();
+	        Random random = new Random();
+
+	        for (int i = 0; i < letras.length; i++) {
+	            int indiceAleatorio = random.nextInt(letras.length);
+	            char temp = letras[i];
+	            letras[i] = letras[indiceAleatorio];
+	            letras[indiceAleatorio] = temp;
+	        }
+
+	        return new String(letras);
+	    }
+
+
 	private boolean validarDatosProductos(String nombreProducto, String codigo, String cantidad, String descrp,
 			String valor, LocalDate fechaVencimiento) {
     	String notificacion = "";
@@ -753,11 +782,114 @@ public class AlmacenController implements Initializable{
 
 	}
 
+
 //----------------------------EVENTOS LISTA PRODUCTOS-------------------------------------------------------
-  	@FXML
-      void venderProducto(ActionEvent event) {
+
+
+    private TransaccionController createTransaccionControllerImplementation() {
+        return new TransaccionController() {
+            @Override
+            public TableColumn<DetalleTransaccion, Integer> getColumCantidad() {
+                TableColumn<DetalleTransaccion, Integer> columCantidad = new TableColumn<>("Cantidad");
+                columCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+                return columCantidad;
+            }
+
+            @Override
+            public TableColumn<DetalleTransaccion, Producto> getColumProducto() {
+                TableColumn<DetalleTransaccion, Producto> columProducto = new TableColumn<>("Producto");
+                columProducto.setCellValueFactory(new PropertyValueFactory<>("productoVendido"));
+                return columProducto;
+            }
+
+            @Override
+            public TableColumn<DetalleTransaccion, Double> getColumSubtotal() {
+                TableColumn<DetalleTransaccion, Double> columSubtotal = new TableColumn<>("Subtotal");
+                columSubtotal.setCellValueFactory(new PropertyValueFactory<>("subTotal"));
+                return columSubtotal;
+            }
+
+            @Override
+            public TableView<DetalleTransaccion> getTableViewDetalle() {
+                TableView<DetalleTransaccion> tableViewDetalle = new TableView<>();
+
+                TableColumn<DetalleTransaccion, Integer> columCantidad = getColumCantidad();
+                TableColumn<DetalleTransaccion, Producto> columProducto = getColumProducto();
+                TableColumn<DetalleTransaccion, Double> columSubtotal = getColumSubtotal();
+
+                tableViewDetalle.getColumns().addAll(columCantidad, columProducto, columSubtotal);
+
+                return tableViewDetalle;
+            }
+        };
+    }
+
+
+    private ObservableList<DetalleTransaccion> getListaDetalles(List<DetalleTransaccion> listaDetallesTransaccion){
+//		List<DetalleTransaccion> listaDetallesTransaccion= new ArrayList<>();
+
+//    	Producto productoVenta= productoSeleccion;
+//    	Double subTotal= productoVenta.getValorUnitario()*cantidad;
+//		DetalleTransaccion detalle= new DetalleTransaccion(cantidad, subTotal, productoVenta);
+
+//		listaDetallesTransaccion.add(detalle);
+    	listaDetalles.clear();
+    	listaDetalles.addAll(listaDetallesTransaccion);
+    	return listaDetalles;
+
+    }
+
+
+    private void actualizarListaDetalles(Integer cantidad, Double subTotal) {
+        Producto productoVenta = productoSeleccion;
+        DetalleTransaccion detalle = new DetalleTransaccion(cantidad, subTotal, productoVenta);
+        listaDetalles.add(detalle);
+    	TransaccionController transaccionVenta = createTransaccionControllerImplementation();
+
+    	System.out.println(listaDetalles.toString());
+
+
+        transaccionVenta.getTableViewDetalle().getItems().setAll(listaDetalles);
+    }
+
+
+    @FXML
+      void venderProducto(ActionEvent event) throws ProductoException {
+
+
+  		if (productoSeleccion!=null) {
+  			Integer cantidadVender = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese la cantidad a vender"));
+  	        Producto productoVenta = productoSeleccion;
+  	        Double subTotal = productoVenta.getValorUnitario() * cantidadVender;
+
+//  	    	Double subTotal= productoVenta.getValorUnitario()*cantidadVender;
+//  			DetalleTransaccion detalle= new DetalleTransaccion(cantidadVender, subTotal, productoVenta);
+//  			List<DetalleTransaccion> listaDetallesTransaccion= new ArrayList<>();
+
+  			/**
+  			 * Clases anonimas para evitar el nullPointerException
+  			 */
+  			TransaccionController transaccionVenta = createTransaccionControllerImplementation();
+//  			transaccionVenta.getColumCantidad().setText(cantidadVender+"");
+//  			transaccionVenta.getColumProducto().setText(productoVenta+"");
+//  			transaccionVenta.getColumSubtotal().setText(subTotal+"");
+//  			transaccionVenta.getTableViewDetalle().getItems().clear();
+//  			transaccionVenta.getTableViewDetalle().setItems(getListaDetalles());
+
+  	        if (singleton.venderProducto(productoSeleccion)) {
+  	            System.out.println("VENDIDO");
+  	            actualizarListaDetalles(cantidadVender, subTotal);
+  	            mostrarMensaje("Producto vendido", "Producto vendido con exito", "El producto ha sido vendido con exito", AlertType.INFORMATION);
+  	        } else {
+  	            System.out.println("No vendido");
+  	        }
+		}else {
+			mostrarMensaje("Producto seleccion", "Producto no seleccionado", "No ha seleccionado ningun producto para vender", AlertType.INFORMATION);
+		}
 
       }
+
+
 
       @FXML
       void eliminarProducto(ActionEvent event)throws ProductoException {
@@ -779,6 +911,43 @@ public class AlmacenController implements Initializable{
 		}
       }
 
+     @FXML
+     	void showFacturasView(ActionEvent event) throws IOException, ProductoException{
+	  		FXMLLoader loader= new FXMLLoader();
+	 		loader.setLocation(Aplicacion.class.getResource("../Views/TransaccionView.fxml"));
+	 		TabPane tabPane= (TabPane)loader.load();
+	 		TransaccionController transaccionController = loader.getController();
+	 		transaccionController.setAplicacion(aplicacion);
+	 		Scene scene= new Scene(tabPane);
+	 		Stage stage = new Stage();
+	 		stage.setScene(scene);
+	 		stage.setTitle("Facturacion");
+	 		transaccionController.init(stage, this);
+	 		String codigo= mezclarPalabra("ABCDEFGH01234589");
+	 		LocalDate fecha=LocalDate.now();
+
+	 		transaccionController.getColumSubtotal().setCellValueFactory(cellData -> cellData.getValue().getSubtotalProperty().asObject());
+	 		Double total= transaccionController.getTableViewDetalle().getItems().stream().mapToDouble(DetalleTransaccion::getSubTotal).sum();
+
+	 		float iva= (float) (total / 1.19);
+	 		//Setear los campos de texto de la transaccion
+	 		transaccionController.getTxtCodigo().setText(codigo);
+	 		transaccionController.getDatePickerFecha().setValue(fecha);
+	 		transaccionController.getTxtIva().setText(iva+"");
+	 		transaccionController.getTxtTotal().setText(total+"");
+
+	 		transaccionController.getTxtCodigo().setEditable(false);
+	 		transaccionController.getTxtIva().setEditable(false);
+	 		transaccionController.getTxtTotal().setEditable(false);
+	 		transaccionController.getDatePickerFecha().setEditable(false);
+
+//	 		transaccionController.getTableViewDetalle().setItems(getListaDetalles());
+
+
+	 		stage.show();
+	 		this.stage.close();
+
+     }
 
 	private boolean esNumero(String string) {
 		try {
@@ -882,19 +1051,22 @@ public class AlmacenController implements Initializable{
 		//FORMATS FIELD OF TEXTS------------------------------------------------------------------------
 		TextFormatter<Integer> textFormatter3 = new TextFormatter<>(new IntegerStringConverter(), 0,
         		c -> c.getControlNewText().matches("\\d*") ? c : null);
-        txtValor.setTextFormatter(textFormatter3);
-        TextFormatter<Integer> textFormatter4 = new TextFormatter<>(new IntegerStringConverter(), 0,
+
+		TextFormatter<Integer> textFormatter4 = new TextFormatter<>(new IntegerStringConverter(), 0,
         		c -> c.getControlNewText().matches("\\d*") ? c : null);
-        txtCantidad.setTextFormatter(textFormatter4);
-        TextFormatter<Integer> textFormatter5 = new TextFormatter<>(new IntegerStringConverter(), 0,
+		TextFormatter<Integer> textFormatter5 = new TextFormatter<>(new IntegerStringConverter(), 0,
         		c -> c.getControlNewText().matches("\\d*") ? c : null);
-        txtPesoEnvase.setTextFormatter(textFormatter5);
-        TextFormatter<Integer> textFormatter6 = new TextFormatter<>(new IntegerStringConverter(), 0,
+		TextFormatter<Integer> textFormatter6 = new TextFormatter<>(new IntegerStringConverter(), 0,
         		c -> c.getControlNewText().matches("\\d*") ? c : null);
-        txtCodigoAprobacion.setTextFormatter(textFormatter6);
-        TextFormatter<Integer> textFormatter7 = new TextFormatter<>(new IntegerStringConverter(), 0,
+		TextFormatter<Integer> textFormatter7 = new TextFormatter<>(new IntegerStringConverter(), 0,
         		c -> c.getControlNewText().matches("\\d*") ? c : null);
-        txtTemperatura.setTextFormatter(textFormatter7);
+
+
+		txtValor.setTextFormatter(textFormatter3);
+		txtCantidad.setTextFormatter(textFormatter4);
+		txtPesoEnvase.setTextFormatter(textFormatter5);
+		txtCodigoAprobacion.setTextFormatter(textFormatter6);
+		txtTemperatura.setTextFormatter(textFormatter7);
 
 	}
 

@@ -40,7 +40,7 @@ public class ProductoPerecedero extends Producto {
 
 	@Override
 	public String toString() {
-		return super.toString()+ "Fecha Vencimiento=" + fechaVencimiento;
+		return super.toString()+ "\nFecha Vencimiento: " + fechaVencimiento;
 	}
 
 

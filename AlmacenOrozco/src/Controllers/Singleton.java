@@ -5,16 +5,19 @@ import java.util.List;
 
 import Exceptions.ClienteException;
 import Exceptions.ProductoException;
+import Exceptions.TransaccionException;
 import Model.Almacen;
 import Model.Cliente;
 import Model.ClienteJuridico;
 import Model.ClienteNatural;
+import Model.DetalleTransaccion;
 import Model.Producto;
 import Model.ProductoEnvasado;
 import Model.ProductoPerecedero;
 import Model.ProductoRefrigerado;
 import Model.TipoPaisOrigen;
 import Model.TipoProducto;
+import Model.Transaccion;
 
 public class Singleton {
 
@@ -36,6 +39,10 @@ public class Singleton {
 	}
 	private void inicializarDatos() {
 		almacen = new Almacen();
+
+		Producto producto1= new ProductoPerecedero("0000", "salchichas", "Salchicas enlatadas", 112, 123, TipoProducto.PERECEDERO, "23/08/2023");
+		almacen.getListaProductos().add(producto1);
+
 	}
 
 	public Almacen getAlmacen() {
@@ -105,12 +112,31 @@ public class Singleton {
 		return almacen.eliminarProducto(productoSeleccion);
 	}
 
+
+	public boolean venderProducto(Producto productoVender) throws ProductoException {
+		return almacen.venderProducto(productoVender);
+	}
+
+
 	public List<Producto> getListaProductos() {
 		return almacen.getListaProductos();
+	}
+
+//-----------------------------TRANSACCIONES----------------------------
+	public boolean crearTransaccion(String codigo,String fecha, String cedulaCliente, String total, String iva, List<DetalleTransaccion> listaDetalles) throws TransaccionException {
+		double totalT= Double.parseDouble(total);
+		float ivaT= Float.parseFloat(iva);
+		Cliente clienteVenta= almacen.obtenerPersona(cedulaCliente);
+		Transaccion newTransaccion= new Transaccion(codigo, fecha, clienteVenta, totalT, ivaT, listaDetalles);
+		return almacen.crearTransaccion(newTransaccion);
+
 	}
 
 
 
 
+	public List<Transaccion> getListaTransacciones(){
+		return almacen.getListaTransacciones();
+	}
 
 }

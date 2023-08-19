@@ -82,7 +82,7 @@
                      <children>
                         <Label layoutX="292.0" layoutY="98.0" text="¿Qué tipo de producto desea registrar?" />
                         <ComboBox fx:id="comboBoxTipoProducto" layoutX="526.0" layoutY="94.0" onAction="#listenerTipoProducto" prefHeight="25.0" prefWidth="253.0" />
-                        <Label layoutX="304.0" layoutY="160.0" text="Nombre: del producto" />
+                        <Label layoutX="304.0" layoutY="160.0" text="Nombre del producto" />
                         <Label layoutX="33.0" layoutY="238.0" text="Código:" />
                         <Label layoutX="33.0" layoutY="286.0" text="Valor unitario:" />
                         <Label layoutX="34.0" layoutY="338.0" text="Cantidad:" />
@@ -141,8 +141,9 @@
                               <TableColumn fx:id="columDescripcion" prefWidth="442.0" text="Descripcion" />
                           </columns>
                         </TableView>
-                        <Button fx:id="btnVender" layoutX="348.0" layoutY="608.0" mnemonicParsing="false" onAction="#venderProducto" style="-fx-cursor: hand; -fx-background-color: #00CDDE;" text="Vender" textFill="WHITE" />
-                        <Button fx:id="btnEliminarProducto" layoutX="466.0" layoutY="608.0" mnemonicParsing="false" onAction="#eliminarProducto" style="-fx-cursor: hand; -fx-background-color: FF2D00;" text="Eliminar" textFill="WHITE" />
+                        <Button fx:id="btnVender" layoutX="419.0" layoutY="608.0" mnemonicParsing="false" onAction="#venderProducto" style="-fx-cursor: hand; -fx-background-color: #00CDDE;" text="Vender" textFill="WHITE" />
+                        <Button fx:id="btnEliminarProducto" layoutX="558.0" layoutY="608.0" mnemonicParsing="false" onAction="#eliminarProducto" style="-fx-cursor: hand; -fx-background-color: FF2D00;" text="Eliminar" textFill="WHITE" />
+                        <Button fx:id="btnAbrirFacturas" layoutX="273.0" layoutY="608.0" mnemonicParsing="false" onAction="#showFacturasView" text="Generar Factura" />
                      </children>
                   </AnchorPane>
               </content>

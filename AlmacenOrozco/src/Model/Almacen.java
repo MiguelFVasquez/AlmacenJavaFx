@@ -1,7 +1,9 @@
 package Model;
 
 import java.util.ArrayList;
-import java.util.List;import java.util.function.Predicate;
+import java.util.Iterator;
+import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -266,6 +268,34 @@ public class Almacen {
 		}
 		return eliminado;
 	}
+
+	/**
+	 *
+	 * @param productoVender
+	 * @return
+	 * @throws ProductoException
+	 */
+	public boolean venderProducto(Producto productoVender) throws ProductoException {
+		boolean vendido= false;
+
+		if (obtenerProducto(productoVender.getCodigo()) == null) {
+			throw new ProductoException("El producto que desea vender no se encuentra disponible");
+		}else if(!productoVender.verificarCantidad()){
+			throw new ProductoException("No hay suficiente cantidad de producto");
+		}else {
+			for (Producto productoAux: listaProductos) {
+				if (obtenerProducto(productoAux.getCodigo()).equals(productoVender)){
+					vendido= true;
+					return vendido;
+				}
+			}
+		}
+
+		return vendido;
+	}
+
+
+
 //------------------------CRUD DE LAS TRANSACCIONES---------------------------------------------------
 	/**
 	 *
